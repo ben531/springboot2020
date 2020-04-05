@@ -8,22 +8,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
 @Aspect
-public class LogTimePointCut {
-
+public class CheckArgsPointCut {
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Pointcut(value = "@annotation(com.atguigu.springboot2020.annotation.LogTime)")
-    public void logTimePointCut() {
+    @Pointcut(value = "@annotation(com.atguigu.springboot2020.annotation.CheckArgs)")
+    public void checkArgs() {
     }
 
-    @Around(value = "logTimePointCut()")
+    @Around(value = "checkArgs()")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
-        long startTime = System.currentTimeMillis();
-        Object proceed = pjp.proceed();
-        long endTime = System.currentTimeMillis();
-        logger.info(pjp.getSignature().getName() + "()方法耗时: " + (endTime - startTime) + "ms");
-        return proceed;
+        Object[] args = pjp.getArgs();
+        String methodName = pjp.getSignature().getName();
+        logger.debug(methodName + "()方法的入参: " + Arrays.asList(args));
+        return pjp.proceed();
     }
 }

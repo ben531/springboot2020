@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class Springboot2020ApplicationTests {
-    Logger logger = LoggerFactory.getLogger(Springboot2020ApplicationTests.class);
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     @Test
     void contextLoads() {
         logger.trace("trace");
