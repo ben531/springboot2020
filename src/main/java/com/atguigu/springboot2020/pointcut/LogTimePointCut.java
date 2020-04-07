@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 @Component
 @Aspect
@@ -20,10 +21,14 @@ public class LogTimePointCut {
 
     @Around(value = "logTimePointCut()")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
-        long startTime = System.currentTimeMillis();
+//        long startTime = System.currentTimeMillis();
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start(pjp.getSignature().getName());
         Object proceed = pjp.proceed();
-        long endTime = System.currentTimeMillis();
-        logger.info(pjp.getSignature().getName() + "()方法耗时: " + (endTime - startTime) + "ms");
+//        long endTime = System.currentTimeMillis();
+        stopWatch.stop();
+//        logger.info(pjp.getSignature().getName() + "()方法耗时: " + stopWatch.getLastTaskTimeMillis() + "ms");
+        logger.info(stopWatch.getLastTaskName() + "()方法耗时: " + stopWatch.getLastTaskTimeMillis() + "ms");
         return proceed;
     }
 }
