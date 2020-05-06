@@ -11,6 +11,17 @@ public class HelloController {
     @LogTime
     @CheckArgs
     public String hello(String name) {
+
+        try {
+            int i = 1 / 1;
+            return "hello";
+        } catch (Exception e) {
+            System.out.println("抛异常了");
+        } finally {
+            System.out.println("执行finally了");
+        }
+
+
         return "hello, " + name;
     }
 }
